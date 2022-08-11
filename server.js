@@ -13,6 +13,7 @@ const passport = require('passport')
 const methodOverride = require('method-override')
 
 const indexRouter = require('./routes/index')
+const userRouter = require('./routes/user')
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
@@ -38,5 +39,6 @@ db.on('error', error => console.error(error))
 db.once('open', error => console.log('Connected to Mongoose'))
 
 app.use('/', indexRouter)
+app.use('/user', userRouter)
 
 app.listen(process.env.PORT || 4000)

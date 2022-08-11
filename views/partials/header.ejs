@@ -1,11 +1,24 @@
 <header>
-    <nav>
-        <a href="/">GEP核算系统</a>
-        <br>
-        <input type="text" placeholder="Search..">
-        <ul>
-            <li><a href="/login">登录</a></li>
-            <li><a href="/register">注册</a></li> 
-        </ul>
+    <nav class="header-nav">
+        <a class="header-title" href="/">调节服务(ERV)核算系统</a>
+        
+        <% if(locals.islogin) { %>
+            <ul>
+                <li>
+                    <a href="/user/<%= locals.id %>">你好！<%= locals.name %></a>
+                </li>
+                <li>
+                    <form action="/logout?_method=DELETE" method="POST">
+                        <button type="submit">退出</button>
+                    </form>
+                </li>
+            </ul>
+
+        <% } else{ %>
+            <ul>
+                <li><a href="/login">登录</a></li>
+                <li><a href="/register">注册</a></li>
+            </ul>
+        <% } %>
     </nav>
 </header>

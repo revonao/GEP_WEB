@@ -1,0 +1,8 @@
+<h2>修改用户信息</h2>
+<form action="/user/<%= locals.id %>?_method=PUT" method="POST">
+    <%- include('_form_fields') %>
+    <div>
+        <a href="/">Cancel</a>
+        <button type="submit">提交</button>
+    </div>
+</form>

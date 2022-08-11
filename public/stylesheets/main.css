@@ -1,5 +1,6 @@
 @import 'shared/variables.css';
 @import 'shared/fonts.css';
+@import 'shared/header.css';
 
 :root {
     font-family: 'Dong Qing';
@@ -7,7 +8,9 @@
     color: var(--color-text-light);
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -22,4 +25,12 @@ body {
 
 .inner-container {
     margin: 0 2rem;
+}
+
+#map {
+    margin: auto;
+    height: 900px;
+    width: 1600px;
+    max-width: 100%;
+    max-height: 100%;
 }

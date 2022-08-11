@@ -16,7 +16,10 @@ initializePassport(
 // Users Route
 router.get('/', checkAuthenticated, async(req, res) => {
     var user = await req.user
-    res.render('index', {name: user.name})
+    res.locals.islogin = req.isAuthenticated()
+    res.locals.name = user.name
+    res.locals.id = user.id
+    res.render('index')
 })
 
 // User Login
@@ -68,7 +71,6 @@ function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next()
     }
-
     res.redirect('/login')
 }
 
