@@ -1,0 +1,31 @@
+<form class="select-container" action="/add" method="POST">
+    <div class="select-inner-container">
+        <label for="years">年份</label>
+        <select name="years" id="years">
+        </select>
+        <label for="types">调节服务类型</label>
+        <select name="types" id="types" onchange="location = this.value;">
+            <option value="waterConservation">水源涵养</option>
+            <option value="soilConservation">土壤保持</option>
+            <option value="windbreakAndSandFixation">防风固沙</option>
+            <option value="floodControl">洪水调蓄</option>
+            <option value="carbonFixation">碳固定</option>
+            <option value="oxygenSupply">氧气提供</option>
+            <option value="airPurification">空气净化</option>
+            <option value="waterPurification">水质净化</option>
+            <option value="climateRegulation">气候调节</option>
+            <option value="speciesConservation">物种保育</option>
+        </select>
+        <br><br>
+        <input type="submit" value="确认">
+    </div>
+</form>
+
+
+<script type='text/javascript'>
+    for(var d=2010;d<=2022;d++)
+    {
+    var option = "<option value='" + d + "'>" + d + "</option>"
+    document.getElementById('years').innerHTML += option;
+    }
+</script>

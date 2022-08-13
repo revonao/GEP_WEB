@@ -67,6 +67,8 @@ router.delete('/logout', function (req, res, next) {
     });
 });
 
+
+
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next()

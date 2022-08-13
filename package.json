@@ -17,10 +17,13 @@
     "express-ejs-layouts": "^2.5.1",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.3",
+    "leaflet-geoserver-request": "^1.2.2",
     "method-override": "^3.0.0",
     "mongoose": "^6.5.1",
+    "multer": "^1.4.5-lts.1",
     "passport": "^0.6.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "python-shell": "^3.0.1"
   },
   "devDependencies": {
     "dotenv": "^16.0.1",
