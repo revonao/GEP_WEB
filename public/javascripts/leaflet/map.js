@@ -12,9 +12,13 @@ function onMapClick(e) {
         .setContent('You clicked the map at ' + e.latlng.toString())
         .openOn(map);
 }
-
 var wmsLayer = L.Geoserver.wms("http://localhost:8080/geoserver/wms", {
   layers: "demo:Hanjiang_1984",
+});
+wmsLayer.addTo(map);
+
+var wmsLayer = L.Geoserver.wms("http://localhost:8080/geoserver/wms", {
+  layers: "	demo:2010_waterConservation",
 });
 wmsLayer.addTo(map);
 

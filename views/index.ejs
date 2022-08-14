@@ -1,23 +1,36 @@
 <form class="select-container" action="/">
-    <div class="select-inner-container">
-        <a href="/add">添加计算</a>
-    </div>
-    <div class="select-inner-container">
-        <label for="years">年份：</label>
-        <select name="years" id="years">
-            <option value="volvo">2017</option>
-            <option value="saab">2018</option>
-            <option value="mercedes">2019</option>
-            <option value="audi">2020</option>
-        </select>
-        <label for="types">调节服务类型：</label>
-        <select name="types" id="types">
-            <option value="volvo">水源涵养</option>
-            <option value="saab">土壤保持</option>
-            <option value="mercedes">防风固沙</option>
-            <option value="audi">洪水调蓄</option>
-        </select>
-    </div>
+    <span style="font-size:1.5rem;cursor:pointer;position: absolute;left: 0;" onclick="openNav()">&#9779; 添加计算</span>
+    <label for="years">年份：</label>
+    <select name="years" id="years">
+        <option value="volvo">2017</option>
+        <option value="saab">2018</option>
+        <option value="mercedes">2019</option>
+        <option value="audi">2020</option>
+    </select>
+    <label for="types">调节服务类型：</label>
+    <select name="types" id="types">
+        <option value="volvo">水源涵养</option>
+        <option value="saab">土壤保持</option>
+        <option value="mercedes">防风固沙</option>
+        <option value="audi">洪水调蓄</option>
+    </select>
 </form>
 <br>
-<div id="map"></div>
+<div>
+    <div id="mySidenav" class="side-nav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="add/waterConservation">水源涵养</a>
+        <a href="add/soilConservation">土壤保持</a>
+        <a href="add/windbreakAndSandFixation">防风固沙</a>
+        <a href="add/floodControl">洪水调蓄</a>
+        <a href="add/carbonFixation">碳固定</a>
+        <a href="add/oxygenSupply">氧气提供</a>
+        <a href="add/airPurification">空气净化</a>
+        <a href="add/waterPurification">水质净化</a>
+        <a href="add/climateRegulation">气候调节</a>
+        <a href="add/speciesConservation">物种保育</a>
+    </div>
+    <div id="map">
+
+    </div>
+</div>
