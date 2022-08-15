@@ -5,7 +5,6 @@ const passport = require('passport')
 
 const initializePassport = require('../passport-config')
 const users = require('../models/user')
-const { query } = require('express')
 
 initializePassport(
     passport,
@@ -35,24 +34,34 @@ router.post('/login', checkNotAuthenticated, passport.authenticate('local', {
 
 // User Register
 router.get('/register', checkNotAuthenticated, async (req, res) => {
-    res.render('users/register')
+    res.render('users/register', { message: '' })
 })
 
 router.post('/register', checkNotAuthenticated, async (req, res) => {
     try {
-        const bcryptPassword = await bcrypt.hash(req.body.password, 10)
-        const user = new users({
-            id: req.body.id,
-            name: req.body.name,
-            province: req.body.province,
-            city: req.body.city,
-            email: req.body.email,
-            phone: req.body.phone,
-            password: bcryptPassword
-        })
-        const newUser = await user.save()
-
-        res.redirect('/login')
+        const checkID = await users.find({ id: req.body.id }).exec()
+        const checkEmail = await users.find({ email: req.body.email }).exec()
+        console.log(checkID.length,checkEmail.length)
+        if ((checkID.length == 0) && (checkEmail.length == 0)) {
+            const bcryptPassword = await bcrypt.hash(req.body.password, 10)
+            const user = new users({
+                id: req.body.id,
+                name: req.body.name,
+                province: req.body.province,
+                city: req.body.city,
+                email: req.body.email,
+                phone: req.body.phone,
+                password: bcryptPassword
+            })
+            const newUser = await user.save()
+            res.redirect('/login')
+        }
+        else if (checkID.length != 0) {
+            res.render('users/register', { message: '该用户已存在' })
+        }
+        else if (checkEmail.length != 0) {
+            res.render('users/register', { message: '该邮箱已占用' })
+        }
     } catch (err) {
         console.log(err)
     }

@@ -32,20 +32,31 @@ body {
     height: 900px;
     right: 0.5rem;
     width: 99%;
-    max-width: 100%;
     max-height: 100%;
     transition: 0.5s;
 }
 
 .select-container {
-    text-align: right;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
+
 .select-container span {
+    cursor:pointer;
+}
+
+.select-container .span-left {
+    position: relative;
+    font-size:1.5rem;
     left: 0;
 }
 
+.select-container .span-right {
+    display: inline;
+}
+
 .select-container select {
-    width: 100%;
     min-width: 15ch;
     max-width: 30ch;
     border: 1px solid var(--select-border);
@@ -60,6 +71,7 @@ body {
 
 .side-nav {
     height: 900px;
+    max-height: 100%;
     width: 0;
     position: absolute;
     z-index: 1;
@@ -71,7 +83,7 @@ body {
 }
 
 .side-nav a {
-    padding: 8px 8px 8px 32px;
+    padding: 12px 12px 12px 32px;
     text-decoration: none;
     font-size: 25px;
     color: var(--color-text-light);

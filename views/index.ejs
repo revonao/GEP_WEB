@@ -1,19 +1,25 @@
 <form class="select-container" action="/">
-    <span style="font-size:1.5rem;cursor:pointer;position: absolute;left: 0;" onclick="openNav()">&#9779; 添加计算</span>
-    <label for="years">年份：</label>
-    <select name="years" id="years">
-        <option value="volvo">2017</option>
-        <option value="saab">2018</option>
-        <option value="mercedes">2019</option>
-        <option value="audi">2020</option>
-    </select>
-    <label for="types">调节服务类型：</label>
-    <select name="types" id="types">
-        <option value="volvo">水源涵养</option>
-        <option value="saab">土壤保持</option>
-        <option value="mercedes">防风固沙</option>
-        <option value="audi">洪水调蓄</option>
-    </select>
+    <div class="span-left">
+        <span onclick="openNav()">&#9779; 添加计算</span>
+        <span onclick="openPanel()">&#9779; 统计分析</span>
+    </div>
+    <div class="span-right">
+        <a id="warnMessage"></a>
+        <label for="years">年份：</label>
+        <select name="years" id="years" class="years" onchange="change(this);">
+            <option value="2010">2010</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+        </select>
+        <label for="types">调节服务类型：</label>
+        <select name="types" id="types" class="types" onchange="change(this);">
+            <option value="waterConservation">水源涵养</option>
+            <option value="soilConservation">土壤保持</option>
+            <option value="windbreakAndSandFixation">防风固沙</option>
+            <option value="floodControl">洪水调蓄</option>
+        </select>
+    </div>
 </form>
 <br>
 <div>
@@ -30,6 +36,12 @@
         <a href="add/climateRegulation">气候调节</a>
         <a href="add/speciesConservation">物种保育</a>
     </div>
+
+    <div id="mySidepanel" class="side-nav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closePanel()">&times;</a>
+
+    </div>
+
     <div id="map">
 
     </div>

@@ -39,11 +39,14 @@ arr2 = b2.ReadAsArray()
 arr3 = b3.ReadAsArray()
 
 data = arr1 - arr2 - arr3
+data = np.array(data)
+data[data < -999] = np.nan
+data[data > 999] = np.nan
 
 gdal_array.SaveArray(data.astype("float32"), output, "GTIFF", ds1)
 
 ras = gdal.Open(output)
-ras.GetRasterBand(1).SetNoDataValue(9999)
+ras.GetRasterBand(1).SetNoDataValue(np.nan)
 
 geo.create_coveragestore(layer_name=year+"_waterConservation", path=output, workspace='demo')
 
