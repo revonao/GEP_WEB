@@ -1,6 +1,8 @@
 @import 'shared/variables.css';
 @import 'shared/fonts.css';
 @import 'shared/header.css';
+@import 'shared/buttons.css';
+@import 'shared/form.css';
 
 :root {
     font-family: 'Dong Qing';
@@ -29,7 +31,7 @@ body {
 
 #map {
     position: absolute;
-    height: 900px;
+    height: 740px;
     right: 0.5rem;
     width: 99%;
     max-height: 100%;
@@ -70,7 +72,7 @@ body {
 }
 
 .side-nav {
-    height: 900px;
+    height: 740px;
     max-height: 100%;
     width: 0;
     position: absolute;

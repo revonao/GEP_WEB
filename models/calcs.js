@@ -5,7 +5,11 @@ const calcSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    type: {
+    type_en: {
+        type: String,
+        required: true
+    },
+    type_cn: {
         type: String,
         required: true
     },

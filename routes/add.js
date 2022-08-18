@@ -26,12 +26,31 @@ router.post('/waterConservation', checkAuthenticated, upload.fields([{ name: 'f1
     fp2 = req.files['f2'][0].path
     fp3 = req.files['f3'][0].path
     year = req.body.year
+    price = req.body.t1
     let options = {
-        args: [fp1, fp2, fp3, year]
+        args: [fp1, fp2, fp3, year, price]
     }
-    PythonShell.run('./geo_modules/waterConservation.py', options, function (err) {
-        if (err) throw err
-        console.log('finished')
+    PythonShell.run('./geo_modules/waterConservation.py', options, async function (err, result) {
+        if (err) {
+            console.log(err)
+            res.redirect('/waterConservation')
+        }
+        console.log(result)
+        const check = await calcs.find({ year: year, type_cn: "水源涵养" }).exec()
+        if (check.length == 0) {
+            const calc = new calcs({
+                year: year,
+                type_cn: "水源涵养",
+                type_en: "waterConservation",
+                value: result.toString()
+            })
+            const newUser = await calc.save()
+        } else {
+            let calc
+            calc = await calcs.findOne({ year: year, type: "水源涵养" })
+            calc.value = result.toString()
+            await calc.save()
+        }
         res.redirect('/')
     })
 })

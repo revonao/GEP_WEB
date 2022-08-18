@@ -1,17 +1,23 @@
-<h2>登录</h2>
-<% if (messages.error) { %>
-    <%= messages.error %>
-<% } %>
-<form action="/login" method="POST">
-    <div>
-        <label for="email">邮箱</label>
-        <input type="text" id="email" name="email" required>
-    </div>
-    <div>
-        <label for="password">密码</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <a href="/">取消</a>
-    <a href="/register">注册</a>
-    <button type="submit">登录</button>
-</form>
+<div class="form-input">
+    <h2>登录</h2>
+    <% if (messages.error) { %>
+        <%= messages.error %>
+            <% } %>
+                <form action="/login" method="POST">
+                    <div class="form-row">
+                        <div class="form-item">
+                            <label for="email">邮箱</label>
+                            <input type="text" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-item">
+                            <label for="password">密码</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                    </div>
+                    <a class="btn btn-a" href="/">取消</a>
+                    <a class="btn btn-a" href="/register">注册</a>
+                    <button class="btn btn-primary" type="submit">登录</button>
+                </form>
+</div>

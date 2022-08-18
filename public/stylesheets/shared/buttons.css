@@ -1,0 +1,36 @@
+:root {
+    --color-btn-primary-background: hsl(var(--color-base-hue), 100%, 83%);
+    --color-btn-primary-text: hsl(var(--color-base-hue), 100%, 20%); 
+    --color-btn-border: black;
+}
+
+.btn {
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+    font-family: 'Dong Qing';
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-a {
+    text-decoration: none;
+    color: var(--color-text-light);
+    font-weight: var(--nav-link-font-weight);
+    padding: 1rem;
+}
+
+.btn-a:hover {
+    color: coral;
+}
+
+.btn-primary {
+    background-color: transparent;
+    color: var(--color-text-dark);
+    border: none;
+}
+
+.btn-primary:hover {
+    color: white;
+}

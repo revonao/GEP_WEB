@@ -1,6 +1,7 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const router = express.Router()
+const calcs = require('../models/calcs')
 const passport = require('passport')
 
 const initializePassport = require('../passport-config')
@@ -18,7 +19,9 @@ router.get('/', checkAuthenticated, async(req, res) => {
     res.locals.islogin = req.isAuthenticated()
     res.locals.name = user.name
     res.locals.id = user.id
-    res.render('index')
+    years = await calcs.find().distinct('year').exec()
+    types_cn = await calcs.find().distinct('type_cn').exec()
+    res.render('index', {years: years, types: types_cn})
 })
 
 // User Login

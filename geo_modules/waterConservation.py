@@ -12,6 +12,7 @@ fp1 = root + sys.argv[1]
 fp2 = root + sys.argv[2]
 fp3 = root + sys.argv[3]
 year = sys.argv[4]
+price = sys.argv[5]
 os.rename(fp1, fp1 + '.tif')
 os.rename(fp2, fp2 + '.tif')
 os.rename(fp3, fp3 + '.tif')
@@ -40,10 +41,15 @@ arr3 = b3.ReadAsArray()
 
 data = arr1 - arr2 - arr3
 data = np.array(data)
-data[data < -999] = np.nan
-data[data > 999] = np.nan
+
+data = data * int(price)
+
+data[data == data[0][0]] = np.nan
+
+value = np.nansum(data)
 
 gdal_array.SaveArray(data.astype("float32"), output, "GTIFF", ds1)
+
 
 ras = gdal.Open(output)
 ras.GetRasterBand(1).SetNoDataValue(np.nan)
@@ -54,4 +60,4 @@ geo.create_coveragestyle(raster_path=output, style_name=year+"_waterConservation
 
 geo.publish_style(layer_name=year+"_waterConservation", style_name=year+"_waterConservation_style", workspace='demo')
 
-
+print(value)
