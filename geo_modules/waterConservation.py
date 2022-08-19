@@ -42,7 +42,7 @@ arr3 = b3.ReadAsArray()
 data = arr1 - arr2 - arr3
 data = np.array(data)
 
-data = data * int(price)
+data = data * float(price)
 
 data[data == data[0][0]] = np.nan
 
@@ -56,7 +56,7 @@ ras.GetRasterBand(1).SetNoDataValue(np.nan)
 
 geo.create_coveragestore(layer_name=year+"_waterConservation", path=output, workspace='demo')
 
-geo.create_coveragestyle(raster_path=output, style_name=year+"_waterConservation_style", workspace='demo', color_ramp='RdBu_r')
+geo.create_coveragestyle(raster_path=output, style_name=year+"_waterConservation_style", workspace='demo', color_ramp='RdYlGn')
 
 geo.publish_style(layer_name=year+"_waterConservation", style_name=year+"_waterConservation_style", workspace='demo')
 

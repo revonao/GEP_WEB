@@ -8,14 +8,16 @@
         <label for="years">年份：</label>
         <select name="years" id="years" class="years" onchange="change(this);">
             <% years.forEach(function(year) { %>
-                <option value=<%= year %>><%= year %></option>
-             <% }) %>
+                <option value=<%=year %>><%= year %>
+                </option>
+                <% }) %>
         </select>
         <label for="types">调节服务类型：</label>
         <select name="types" id="types" class="types" onchange="change(this);">
             <% types.forEach(function(type) { %>
-                <option value=<%= type %>><%= type %></option>
-             <% }) %>
+                <option value=<%=type %>><%= type %>
+                </option>
+                <% }) %>
         </select>
     </div>
 </form>
@@ -38,9 +40,77 @@
     <div id="mySidepanel" class="side-nav">
         <a href="javascript:void(0)" class="closebtn" onclick="closePanel()">&times;</a>
 
+        <div id="pieChart" style="width: 500px;height:400px;"></div>
     </div>
 
     <div id="map">
 
     </div>
+
+    <script>
+        var myChart = echarts.init(document.getElementById('pieChart'));
+        option = {
+            title: {
+                text: '当年各因子占比饼图',
+                subtext: '计算结果数据',
+                left: 'center',
+                textStyle: {
+                    color: "#fff"
+                }
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                textStyle: {
+                    color: "#fff"
+                }
+
+            },
+            series: [
+                {
+                    type: 'pie',
+                    data: [],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        $('.years').change(function () {
+            var years = $("#years").val();
+            $.ajax({
+                url: "/",
+                async: true,
+                method: "POST",
+                data: {years: years},
+                success: function (result) {
+                    myChart.hideLoading();
+                    myChart.setOption({
+                        series: [
+                            {
+                                type: 'pie',
+                                data: result,
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    })
+                }
+            });
+        });
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
 </div>

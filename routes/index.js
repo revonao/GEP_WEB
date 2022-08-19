@@ -20,12 +20,20 @@ router.get('/', checkAuthenticated, async(req, res) => {
     res.locals.name = user.name
     res.locals.id = user.id
     years = await calcs.find().distinct('year').exec()
-    types_cn = await calcs.find().distinct('type_cn').exec()
-    res.render('index', {years: years, types: types_cn})
+    types = await calcs.find().distinct('type_cn').exec()
+    res.render('index', {years: years, types: types})
+})
+
+router.post('/', checkAuthenticated, async(req, res) => {
+    years = req.body.years
+    data = await calcs.find({year: years}).select({'_id': 0, value: 1, type_cn: 1});
+    data = JSON.parse(JSON.stringify(data, ["value", "type_cn"], 4))
+    data.forEach( obj => renameKey( obj, 'type_cn', 'name' ) );
+    res.send(data)
 })
 
 // User Login
-router.get('/login', checkNotAuthenticated, (req, res) => {
+router.get('/login', checkNotAuthenticated, async (req, res) => {
     res.render('users/login')
 })
 
@@ -60,7 +68,7 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
             res.redirect('/login')
         }
         else if (checkID.length != 0) {
-            res.render('users/register', { message: '该用户已存在' })
+            res.render('users/register', { message: '该账号已存在' })
         }
         else if (checkEmail.length != 0) {
             res.render('users/register', { message: '该邮箱已占用' })
@@ -94,6 +102,11 @@ function checkNotAuthenticated(req, res, next) {
     }
     next()
 }
+
+function renameKey ( obj, oldKey, newKey ) {
+    obj[newKey] = obj[oldKey];
+    delete obj[oldKey];
+  }
 
 module.exports = router
 

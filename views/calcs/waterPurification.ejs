@@ -1,18 +1,55 @@
-<form action="/add/waterPurification" method="POST" enctype="multipart/form-data">
-    <label>计算年份</label>
-    <input type="text" name="year">
-    <label>总氮(t/a)</label>
-    <input type="file" name="f1">
-    <label>总磷(t/a)</label>
-    <input type="file" name="f2">
-    <label>COD</label>
-    <input type="file" name="f3">
-    <label>总氮处理单价</label>
-    <input type="file" name="t1">
-    <label>总磷处理单价</label>
-    <input type="file" name="t2">
-    <label>COD处理单价</label>
-    <input type="file" name="t3">
-    <button type="submit">确定</button>
-</form>
+<div class="form-input">
+    <form action="/add/waterPurification" method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="form-item">
+                <label>计算年份</label>
+                <input type="number" name="year" min="1980" max="2025" required>
+            </div>
+        </div>
 
+        <div class="form-row">
+            <div class="form-item">
+                <label>总氮(t/a)</label>
+                <input type="file" name="f1" required accept=".tif, .tiff|image/*">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-item">
+                <label>总磷(t/a)</label>
+                <input type="file" name="f2" required accept=".tif, .tiff|image/*">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-item">
+                <label>COD</label>
+                <input type="file" name="f3" required accept=".tif, .tiff|image/*">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-item">
+                <label>总氮处理单价</label>
+                <input type="file" name="t1" required accept=".tif, .tiff|image/*">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-item">
+                <label>总磷处理单价</label>
+                <input type="file" name="t2" required accept=".tif, .tiff|image/*">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-item">
+                <label>COD处理单价</label>
+                <input type="file" name="t3" required accept=".tif, .tiff|image/*">
+            </div>
+        </div>
+
+        <a class="btn btn-a" href="/">取消</a>
+        <button class="btn btn-primary" type="submit">确定</button>
+    </form>
+</div>
