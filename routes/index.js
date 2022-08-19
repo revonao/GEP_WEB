@@ -25,11 +25,20 @@ router.get('/', checkAuthenticated, async(req, res) => {
 })
 
 router.post('/', checkAuthenticated, async(req, res) => {
-    years = req.body.years
-    data = await calcs.find({year: years}).select({'_id': 0, value: 1, type_cn: 1});
-    data = JSON.parse(JSON.stringify(data, ["value", "type_cn"], 4))
-    data.forEach( obj => renameKey( obj, 'type_cn', 'name' ) );
-    res.send(data)
+    console.log(req.body.types_change, req.body.years_change)
+    if(req.body.years_change == "true") {
+        years = req.body.years
+        data = await calcs.find({year: years}).select({'_id': 0, value: 1, type_cn: 1});
+        data = JSON.parse(JSON.stringify(data, ["value", "type_cn"], 4))
+        data.forEach( obj => renameKey( obj, 'type_cn', 'name' ) );
+        console.log(data)
+        return res.send(data)
+    }
+    if(req.body.types_change == "true") {
+        types = req.body.types
+        data = await calcs.find({type_cn: types}).sort({year:1}).select({'_id': 0, value: 1, year: 1});
+        return res.send(data)
+    }
 })
 
 // User Login

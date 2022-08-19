@@ -31,6 +31,9 @@ ds1 = gdal.Open(fp1)
 ds2 = gdal.Open(fp2)
 ds3 = gdal.Open(fp3)
 
+res = ds1.RasterXSize
+
+
 b1 = ds1.GetRasterBand(1)
 b2 = ds2.GetRasterBand(1)
 b3 = ds3.GetRasterBand(1)
@@ -39,12 +42,16 @@ arr1 = b1.ReadAsArray()
 arr2 = b2.ReadAsArray()
 arr3 = b3.ReadAsArray()
 
-data = arr1 - arr2 - arr3
+arr1[arr1 == arr1[0][0]] = np.nan
+arr2[arr2 == arr2[0][0]] = np.nan
+arr3[arr3 == arr3[0][0]] = np.nan
+
+data = (arr1 - arr2 - arr3) * res * res * 0.001
 data = np.array(data)
 
 data = data * float(price)
-
 data[data == data[0][0]] = np.nan
+data[data < 0] = 0
 
 value = np.nansum(data)
 

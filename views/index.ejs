@@ -41,6 +41,7 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closePanel()">&times;</a>
 
         <div id="pieChart" style="width: 500px;height:400px;"></div>
+        <div id="lineChart" style="width: 500px;height:400px; left: 15px;"></div>
     </div>
 
     <div id="map">
@@ -52,7 +53,7 @@
         option = {
             title: {
                 text: '当年各因子占比饼图',
-                subtext: '计算结果数据',
+                subtext: '仅包含已计算数据',
                 left: 'center',
                 textStyle: {
                     color: "#fff"
@@ -85,11 +86,13 @@
         };
         $('.years').change(function () {
             var years = $("#years").val();
+            var years_change = true;
+            var types_change = false;
             $.ajax({
                 url: "/",
                 async: true,
                 method: "POST",
-                data: {years: years},
+                data: { years: years, years_change: years_change, types_change: types_change },
                 success: function (result) {
                     myChart.hideLoading();
                     myChart.setOption({
@@ -110,7 +113,97 @@
                 }
             });
         });
-        // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
+
+        var myChart1 = echarts.init(document.getElementById('lineChart'));
+        option1 = {
+            title: {
+                text: '因子年际变化图',
+                subtext: '仅包含已计算数据',
+                left: 'center',
+                textStyle: {
+                    color: "#fff"
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: [],
+                textStyle: {
+                    color: "#fff"
+                }
+            },
+            yAxis: {
+                type: 'value',
+                textStyle: {
+                    color: "#fff"
+                }
+            },
+            series: [
+                {
+                    data: [],
+                    type: 'line',
+                    symbol: 'triangle',
+                    symbolSize: 8,
+                    lineStyle: {
+                        color: '#5470C6',
+                        width: 3,
+                        type: 'dashed'
+                    },
+                    itemStyle: {
+                        borderWidth: 3,
+                        borderColor: '#EE6666',
+                        color: 'yellow'
+                    }
+                }
+            ]
+        };
+        $('.types').change(function () {
+            var types = $("#types").val();
+            var years_change = false;
+            var types_change = true;
+            $.ajax({
+                url: "/",
+                async: true,
+                method: "POST",
+                data: { types: types, years_change: years_change, types_change: types_change },
+                success: function (result) {
+                    xdata = [];
+                    sdata = [];
+                    result.forEach(calc => {
+                        xdata.push(calc.year);
+                        sdata.push(calc.value);
+                    });
+                    myChart1.hideLoading();
+                    myChart1.setOption({
+                        xAxis: {
+                            type: 'category',
+                            data: xdata,
+                            textStyle: {
+                                color: "#fff"
+                            }
+                        },
+                        series: [
+                            {
+                                data: sdata,
+                                type: 'line',
+                                symbol: 'triangle',
+                                symbolSize: 8,
+                                lineStyle: {
+                                    color: '#5470C6',
+                                    width: 3,
+                                    type: 'dashed'
+                                },
+                                itemStyle: {
+                                    borderWidth: 3,
+                                    borderColor: '#EE6666',
+                                    color: 'yellow'
+                                }
+                            }
+                        ]
+                    })
+                }
+            });
+        });
+        myChart1.setOption(option1);
     </script>
 </div>
