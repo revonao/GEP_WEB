@@ -47,7 +47,7 @@ router.post('/waterConservation', checkAuthenticated, upload.fields([{ name: 'f1
                     const newCalc = await calc.save()
                 } else {
                     let calc
-                    calc = await calcs.findOne({ year: year, type: "水源涵养" })
+                    calc = await calcs.findOne({ year: year, type_cn: "水源涵养" })
                     calc.value = result.toString()
                     await calc.save()
 
@@ -74,16 +74,18 @@ router.post('/soilConservation', checkAuthenticated, upload.fields([
     { name: 'f2', maxCount: 1 },
     { name: 'f3', maxCount: 1 },
     { name: 'f4', maxCount: 1 },
-    { name: 'f5', maxCount: 1 }]), async (req, res) => {
+    { name: 'f5', maxCount: 1 },
+    { name: 'f6', maxCount: 1 }]), async (req, res) => {
         try {
             fp1 = req.files['f1'][0].path
             fp2 = req.files['f2'][0].path
             fp3 = req.files['f3'][0].path
             fp4 = req.files['f4'][0].path
             fp5 = req.files['f5'][0].path
+            fp6 = req.files['f6'][0].path
             year = req.body.year
             let options = {
-                args: [fp1, fp2, fp3, fp4, fp5, year]
+                args: [fp1, fp2, fp3, fp4, fp5, fp6, year]
             }
             PythonShell.run('./geo_modules/soilConservation.py', options, async function (err, result) {
                 if (err) {
@@ -102,7 +104,7 @@ router.post('/soilConservation', checkAuthenticated, upload.fields([
                         const newCalc = await calc.save()
                     } else {
                         let calc
-                        calc = await calcs.findOne({ year: year, type: "土壤保持" })
+                        calc = await calcs.findOne({ year: year, type_cn: "土壤保持" })
                         calc.value = result.toString()
                         await calc.save()
                     }
@@ -122,14 +124,14 @@ router.get('/windbreakAndSandFixation', checkAuthenticated, async (req, res) => 
     res.render('calcs/windbreakAndSandFixation')
 })
 
-router.post('/windbreakAndSandFixation', checkAuthenticated, upload.fields([{ name: 'f1', maxCount: 1 }, { name: 'f2', maxCount: 1 }]), async (req, res) => {
+router.post('/windbreakAndSandFixation', checkAuthenticated, upload.fields([{ name: 'f1', maxCount: 1 }, { name: 'f2', maxCount: 1 }, { name: 'f3', maxCount: 1 }]), async (req, res) => {
     try {
         fp1 = req.files['f1'][0].path
         fp2 = req.files['f2'][0].path
+        fp3 = req.files['f3'][0].path
         year = req.body.year
-        price = req.body.t1
         let options = {
-            args: [fp1, fp2, year]
+            args: [fp1, fp2, fp3, year]
         }
         PythonShell.run('./geo_modules/windbreakAndSandFixation.py', options, async function (err, result) {
             if (err) {
@@ -147,7 +149,7 @@ router.post('/windbreakAndSandFixation', checkAuthenticated, upload.fields([{ na
                     const newCalc = await calc.save()
                 } else {
                     let calc
-                    calc = await calcs.findOne({ year: year, type: "防风固沙" })
+                    calc = await calcs.findOne({ year: year, type_cn: "防风固沙" })
                     calc.value = result.toString()
                     await calc.save()
                 }
@@ -200,12 +202,96 @@ router.get('/waterPurification', checkAuthenticated, async (req, res) => {
     res.render('calcs/waterPurification')
 })
 
+router.post('/waterPurification', checkAuthenticated, upload.fields([
+    { name: 'f1', maxCount: 1 }, 
+    { name: 'f2', maxCount: 1 }, 
+    { name: 'f3', maxCount: 1 }, 
+    { name: 'f4', maxCount: 1 }]), async (req, res) => {
+    try {
+        fp1 = req.files['f1'][0].path
+        fp2 = req.files['f2'][0].path
+        fp3 = req.files['f3'][0].path
+        fp4 = req.files['f4'][0].path
+        year = req.body.year
+        price = req.body.t1
+        let options = {
+            args: [fp1, fp2, fp3, fp4, year, price]
+        }
+        PythonShell.run('./geo_modules/waterPurification.py', options, async function (err, result) {
+            if (err) {
+                console.log(err)
+                res.render('calcs/waterPurification', { message: err })
+            } else {
+                const check = await calcs.find({ year: year, type_cn: "水质净化" }).exec()
+                if (check.length == 0) {
+                    const calc = new calcs({
+                        year: year,
+                        type_cn: "水质净化",
+                        type_en: "waterPurification",
+                        value: result.toString()
+                    })
+                    const newCalc = await calc.save()
+                } else {
+                    let calc
+                    calc = await calcs.findOne({ year: year, type_cn: "水质净化" })
+                    calc.value = result.toString()
+                    await calc.save()
+                }
+                res.redirect('/')
+            }
+        })
+    } catch (err) {
+        res.render('calcs/waterPurification', { message: err })
+    }
+})
+
 router.get('/climateRegulation', checkAuthenticated, async (req, res) => {
     var user = await req.user
     res.locals.islogin = req.isAuthenticated()
     res.locals.name = user.name
     res.locals.id = user.id
     res.render('calcs/climateRegulation')
+})
+
+router.post('/climateRegulation', checkAuthenticated, upload.fields([
+    { name: 'f1', maxCount: 1 }, 
+    { name: 'f2', maxCount: 1 }, 
+    { name: 'f3', maxCount: 1 }]), async (req, res) => {
+    try {
+        fp1 = req.files['f1'][0].path
+        fp2 = req.files['f2'][0].path
+        fp3 = req.files['f3'][0].path
+        year = req.body.year
+        price = req.body.t1
+        let options = {
+            args: [fp1, fp2, fp3, year, price]
+        }
+        PythonShell.run('./geo_modules/climateRegulation.py', options, async function (err, result) {
+            if (err) {
+                console.log(err)
+                res.render('calcs/climateRegulation', { message: err })
+            } else {
+                const check = await calcs.find({ year: year, type_cn: "气候调节" }).exec()
+                if (check.length == 0) {
+                    const calc = new calcs({
+                        year: year,
+                        type_cn: "气候调节",
+                        type_en: "climateRegulation",
+                        value: result.toString()
+                    })
+                    const newCalc = await calc.save()
+                } else {
+                    let calc
+                    calc = await calcs.findOne({ year: year, type_cn: "气候调节" })
+                    calc.value = result.toString()
+                    await calc.save()
+                }
+                res.redirect('/')
+            }
+        })
+    } catch (err) {
+        res.render('calcs/climateRegulation', { message: err })
+    }
 })
 
 router.get('/speciesConservation', checkAuthenticated, async (req, res) => {
